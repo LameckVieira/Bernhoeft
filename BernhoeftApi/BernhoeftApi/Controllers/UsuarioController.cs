@@ -1,5 +1,6 @@
 ﻿using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Usuario;
 using BernhoeftApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace BernhoeftApi.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : BaseController
     {
         /// <summary>
         /// Objeto _UsuarioRepository que irá receber todos os métodos definidos na interface IUsuarioRepository
@@ -45,7 +46,7 @@ namespace BernhoeftApi.Controllers
         /// <returns>Um status code 204 - No Content</returns>
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Usuario perfilAtualizado)
+        public IActionResult Put(int id, AtualizarUsuarioInputModel perfilAtualizado)
         {
             // Faz a chamada para o método
             _usuarioRepository.Atualizar(id, perfilAtualizado);
@@ -90,10 +91,11 @@ namespace BernhoeftApi.Controllers
         /// 
 
         [HttpPost]
-        public IActionResult Post(Usuario novoPerfil)
+        public IActionResult Post(CriarUsuarioInputModel novoUsuario)
         {
+            Usuario usuario = new Usuario(novoUsuario.TipoUsuarioId, novoUsuario.Nome, novoUsuario.Email, novoUsuario.Senha);
             // Faz a chamada para o método
-            _usuarioRepository.Cadastrar(novoPerfil);
+            _usuarioRepository.Cadastrar(usuario);
 
             // Retorna um status code
             return StatusCode(201);

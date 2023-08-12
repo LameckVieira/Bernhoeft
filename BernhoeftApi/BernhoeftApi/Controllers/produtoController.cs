@@ -1,5 +1,6 @@
 ﻿using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Produto;
 using BernhoeftApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,22 +12,23 @@ namespace BernhoeftApi.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class produtoController : ControllerBase
+    public class ProdutoController : BaseController
     {
         private IProdutoRepository _produtoRepository { get; set; }
 
-        public produtoController()
+        public ProdutoController()
         {
-            _produtoRepository = new produtoRepository();
+            _produtoRepository = new ProdutoRepository();
         }
 
-        [Authorize]
         [HttpPost]
-        public IActionResult Post(Produto novoProduto)
+        public IActionResult Post(CriarProdutoInputModel novoProduto)
         {
             try
             {
-                _produtoRepository.Cadastrar(novoProduto);
+                Produto produto = new Produto(base.PegarIdUsuario(),novoProduto.CategoriaId, novoProduto.Nome, novoProduto.Preco, novoProduto.Descricao,  novoProduto.Situacao);
+
+                _produtoRepository.Cadastrar(produto);
 
                 return StatusCode(201);
             }
@@ -37,7 +39,6 @@ namespace BernhoeftApi.Controllers
         }
 
 
-        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -51,8 +52,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("buscarporId{id}")]
+        [HttpGet("buscarporId/{id}")]
         public IActionResult GetById(int id)
         {
             try
@@ -65,8 +65,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("buscarporcategoriaid{id}")]
+        [HttpGet("buscarporcategoriaid/{id}")]
         public IActionResult GetBycategoriaId(int id)
         {
             try
@@ -79,8 +78,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("descricao{descricao}")]
+        [HttpGet("descricao/{descricao}")]
         public IActionResult GetbyDescricaoProduto(string descricao)
         {
             try
@@ -93,8 +91,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("situacao{situacao}")]
+        [HttpGet("situacao/{situacao}")]
         public IActionResult GetbySitucaoDoProduto(bool situacao)
         {
             try
@@ -107,9 +104,8 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPut("atualizarprodudo{id}")]
-        public IActionResult Put(int id, Produto produtoAtualizado)
+        [HttpPut("atualizarprodudo/{id}")]
+        public IActionResult Put(int id, AtualizarProdutoInputModel produtoAtualizado)
         {
             try
             {
@@ -123,8 +119,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpDelete("deletarproduto{id}")]
+        [HttpDelete("deletarproduto/{id}")]
         public IActionResult Delete(int id)
         {
             try
@@ -139,7 +134,6 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("meusprodutos")]
         public IActionResult ListarMeusProdutos()
         {

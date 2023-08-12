@@ -1,4 +1,5 @@
 ﻿using BernhoeftApi.Domains;
+using BernhoeftApi.Model.InputModels.Categoria;
 
 namespace BernhoeftApi.Interfaces
 {
@@ -27,7 +28,7 @@ namespace BernhoeftApi.Interfaces
         /// </summary>
         /// <param name="id">Id da categoria que será atualizado</param>
         /// <param name="categoriaAtualizado">Objeto salaAtualizada que receberá os novos valores</param>
-        void Atualizar(int id, Categoria categoriaAtualizado);
+        void Atualizar(int id, AtualizarCategoriaInputModel categoriaAtualizado);
 
         /// <summary>
         /// Buscar uma categoria por seu id
@@ -35,8 +36,8 @@ namespace BernhoeftApi.Interfaces
         /// <param name="id">id da categoria a ser buscado</param>
         /// <returns>uma categoria buscado</returns>
         Categoria BuscarPorId(int id);
-        Categoria BuscarPorSitucao(bool situcao);
-        Categoria BuscarPorDescricao(string Nome);
+        List<Categoria> BuscarPorSitucao(bool situcao);
+        List<Categoria> BuscarPorDescricao(string Nome);
         List<Categoria> ListarMinhasCategorias(int IdUsuario);
     }
 }

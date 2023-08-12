@@ -1,6 +1,7 @@
 ﻿using BernhoeftApi.Contexts;
 using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Usuario;
 
 namespace BernhoeftApi.Repositories
 {
@@ -8,17 +9,17 @@ namespace BernhoeftApi.Repositories
     {
         BernhoeftContext ctx = new BernhoeftContext();
 
-        public void Atualizar(int id, Usuario UsuarioAtualizado)
+        public void Atualizar(int id, AtualizarUsuarioInputModel UsuarioAtualizado)
         {
             //Busca um Usuariol através do id
             Usuario UsuarioBuscado = ctx.Usuarios.Find(id);
 
             // Verifica as informações
 
-            if (UsuarioAtualizado.IdTipoUsuario != null)
+            if (UsuarioAtualizado.TipoUsuarioId != null)
             {
                 // Atribui os novos valores aos campos existentes
-                UsuarioBuscado.IdTipoUsuario = UsuarioAtualizado.IdTipoUsuario;
+                UsuarioBuscado.TipoUsuarioId = UsuarioAtualizado.TipoUsuarioId;
             }
 
             if (UsuarioAtualizado.Nome != null)
@@ -53,7 +54,7 @@ namespace BernhoeftApi.Repositories
         public Usuario? BuscarPorId(int id)
         {
             // Retorna o primeiro Usuariol encontrado para o ID informado
-            return ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == id);
+            return ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
         }
 
         public void Cadastrar(Usuario novoUsuario)

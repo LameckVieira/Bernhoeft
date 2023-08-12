@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BernhoeftApi.Domains
 {
@@ -7,20 +8,29 @@ namespace BernhoeftApi.Domains
     {
         public Produto()
         {
-            Categoria = new HashSet<Categoria>();
+
         }
 
-        public int IdProduto { get; set; }
-        public int IdUsuario { get; set; }
-        public int IdCategoria { get; set; }
+        public Produto(int usuarioid, int categoriaId, string nome, double preco,string descricao, bool situacao)
+        {
+            UsuarioId = usuarioid;
+            CategoriaId = categoriaId;
+            Nome = nome;
+            Preco = preco;
+            Descricao = descricao;
+            Situacao = situacao;
+        }
+
+        [Key]
+        public int ProdutoId { get; set; }
+        public int UsuarioId { get; set; }
+        public int CategoriaId { get; set; }
         public string Nome { get; set; } = null!;
         public string Descricao { get; set; } = null!;
         public double Preco { get; set; }
         public bool Situacao { get; set; }
 
-        public virtual ICollection<Categoria> Categoria { get; set; }
-        public virtual Usuario IdUsuarioNavigation { get; set; }
-        public virtual Categoria IdCategoriaNavigation { get; set; }
-
+        public virtual Usuario Usuario { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

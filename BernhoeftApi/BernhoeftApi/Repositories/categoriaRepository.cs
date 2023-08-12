@@ -1,14 +1,15 @@
 ﻿using BernhoeftApi.Contexts;
 using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Categoria;
 using Microsoft.EntityFrameworkCore;
 
 namespace BernhoeftApi.Repositories
 {
-    public class categoriaRepository : ICategoriaRespository
+    public class CategoriaRepository : ICategoriaRespository
     {
         BernhoeftContext ctx = new BernhoeftContext();
-        public void Atualizar(int id, Categoria categoriaAtualizada)
+        public void Atualizar(int id, AtualizarCategoriaInputModel categoriaAtualizada)
         {
             Categoria categoriaBuscada = ctx.Categorias.Find(id);
 
@@ -31,36 +32,23 @@ namespace BernhoeftApi.Repositories
         {
             return ctx.Categorias.Select(s => new Categoria()
             {
-                IdCategoria = s.IdCategoria,
-                IdUsuario = s.IdUsuario,
+                CategoriaId = s.CategoriaId,
+                UsuarioId = s.UsuarioId,
                 Nome = s.Nome,
                 Situacao = s.Situacao,
             })
-                .FirstOrDefault(s => s.IdCategoria == id);
+                .FirstOrDefault(s => s.CategoriaId == id);
         }
 
-        public Categoria? BuscarPorSitucao(bool situcao)
+        public List<Categoria> BuscarPorSitucao(bool situcao)
         {
-            return ctx.Categorias.Select(s => new Categoria()
-            {
-                IdCategoria = s.IdCategoria,
-                IdUsuario = s.IdUsuario,
-                Nome = s.Nome,
-                Situacao = s.Situacao,
-            })
-                .FirstOrDefault(s => s.Situacao == situcao);
+            return ctx.Categorias.Where(s => s.Situacao == situcao).ToList();
+    
         }
 
-        public Categoria? BuscarPorDescricao(string nome)
+        public List<Categoria> BuscarPorDescricao(string nome)
         {
-            return ctx.Categorias.Select(s => new Categoria()
-            {
-                IdCategoria = s.IdCategoria,
-                IdUsuario = s.IdUsuario,
-                Nome = s.Nome,
-                Situacao = s.Situacao,
-            })
-                .FirstOrDefault(s => s.Nome == nome);
+            return ctx.Categorias.Where(s => s.Nome == nome).ToList();
         }
 
         public void Cadastrar(Categoria novaCategoria)
@@ -80,13 +68,9 @@ namespace BernhoeftApi.Repositories
             return ctx.Categorias.ToList();
         }
 
-        public List<Categoria> ListarMinhasCategorias(int IdUsuario)
+        public List<Categoria> ListarMinhasCategorias(int UsuarioId)
         {
             return ctx.Categorias
-
-             .Include(c => c.IdUsuarioNavigation)
-
-             .Where(c => c.IdUsuarioNavigation.IdUsuario == IdUsuario)
 
              .ToList();
         }

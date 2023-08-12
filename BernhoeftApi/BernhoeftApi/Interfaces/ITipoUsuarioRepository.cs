@@ -1,4 +1,5 @@
 ﻿using BernhoeftApi.Domains;
+using BernhoeftApi.Model.InputModels.TipoUsuario;
 
 namespace BernhoeftApi.Interfaces
 {
@@ -36,7 +37,7 @@ namespace BernhoeftApi.Interfaces
         /// </summary>
         /// <param name="id">ID do usuario que será atualizado</param>
         /// <param name="tipoUsuarioAtualizado">Objeto usuarioAtualizado com as novas informações</param>
-        void Atualizar(int id, TipoUsuario tipoUsuarioAtualizado);
+        void Atualizar(int id, AtualizarTipoUsuarioInputModel tipoUsuarioAtualizado);
 
         /// <summary>
         /// Deleta um usuario existente

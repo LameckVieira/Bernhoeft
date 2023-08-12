@@ -1,7 +1,13 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using BernhoeftApi.Contexts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Text;
 
 namespace BernhoeftApi
 {
@@ -12,6 +18,7 @@ namespace BernhoeftApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers()
 
             .AddNewtonsoftJson(options =>
@@ -25,9 +32,11 @@ namespace BernhoeftApi
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
-            services.AddCors(options => {
+            services.AddCors(options =>
+            {
                 options.AddPolicy("CorsPolicy",
-                    builder => {
+                    builder =>
+                    {
                         builder.WithOrigins("http://localhost:3000", "http://localhost:19006", "http://localhost:19002")
                                                                     .AllowAnyHeader()
                                                                     .AllowAnyMethod();
@@ -47,45 +56,67 @@ namespace BernhoeftApi
                 //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 //c.IncludeXmlComments(xmlPath);
 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: ",
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                        },
+                        new[] { "readAccess", "writeAccess" }
+                    }
+                });
+
             });
 
 
             //define a forma de autenticação : no caso usaremos o (JwtBearer)
-            services
-                    .AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = "JwtBearer";
-                        options.DefaultChallengeScheme = "JwtBearer";
-                    })
-
-
-                //define os parametros de validação do token
-                .AddJwtBearer("JwtBearer", options =>
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddCookie(x =>
+            {
+                x.Cookie.SameSite = SameSiteMode.Strict;
+                x.Cookie.HttpOnly = true;
+                x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        //quem está emitindo
-                        ValidateIssuer = true,
-
-                        //quem está validando
-                        ValidateAudience = true,
-
-                        //define que o tempo de expiração será validado
-                        ValidateLifetime = true,
-
-                        //forma de criptografia
-                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("chave-autenticacao")),
-
-                        //tempo de expiração do token
-                        ClockSkew = TimeSpan.FromMinutes(30),
-
-                        //nome do issuer, de onde está vindo
-                        ValidIssuer = "BernhoeftApi",
-
-                        //nome do audience, de onde está indo
-                        ValidAudience = "BernhoeftApi"
-                    };
-                });
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("lameck-teste-testeteste-chave-autenticacao")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
 
@@ -112,8 +143,8 @@ namespace BernhoeftApi
             });
 
 
-            app.UseAuthentication();
 
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

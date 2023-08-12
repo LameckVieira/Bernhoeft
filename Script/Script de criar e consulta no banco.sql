@@ -1,9 +1,9 @@
 --Criar o Banco de dados
-CREATE DATABASE Bernhoeft;
+CREATE DATABASE Teste;
 GO
 
 --Para acessar o Banco de dados
-USE Bernhoeft;
+USE Teste;
 GO
 
 --Criar tabela de produtos
@@ -54,3 +54,9 @@ SELECT * FROM Produtos
 SELECT * FROM Categorias
 SELECT * FROM Usuario
 SELECT * FROM TipoUsuario
+
+INSERT INTO Produtos (idProduto,idUsuario,idCategoria,nome,descricao,situacao)VALUES (1,1,'Lameck','lameck@gmail.com','lameck123')
+
+INSERT INTO Usuario (idUsuario,idTipoUsuario,nome,email,senha)VALUES (1,1,'Lameck','lameck@gmail.com','lameck123')
+
+INSERT INTO TipoUsuario (idTipoUsuario,tipoUsusario)VALUES (1,'Admin')

@@ -1,32 +1,35 @@
 ﻿using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Categoria;
 using BernhoeftApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace BernhoeftApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class categoriaController : ControllerBase
+    public class CategoriaController : BaseController
     {
         private ICategoriaRespository _categoriaRepository { get; set; }
 
-        public categoriaController()
+        public CategoriaController()
         {
-            _categoriaRepository = new categoriaRepository();
+            _categoriaRepository = new CategoriaRepository();
         }
 
-        [Authorize]
         [HttpPost]
-        public IActionResult Post(Categoria novaCategoria)
+        public IActionResult Post(CriarCategoriaInputModel novaCategoria)
         {
             try
             {
-                _categoriaRepository.Cadastrar(novaCategoria);
+                Categoria categoria = new Categoria(base.PegarIdUsuario(), novaCategoria.Nome, novaCategoria.Situacao);
+
+                _categoriaRepository.Cadastrar(categoria);
 
                 return StatusCode(201);
             }
@@ -37,7 +40,6 @@ namespace BernhoeftApi.Controllers
         }
 
 
-        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -51,8 +53,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("buscarporid{id}")]
+        [HttpGet("pegarid/{id}")]
         public IActionResult GetById(int id)
         {
             try
@@ -65,8 +66,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("situcao{situcao}")]
+        [HttpGet("buscarporsitucao/{situcao}")]
         public IActionResult GetBySituacao(bool situcao)
         {
             try
@@ -79,8 +79,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("descricao{descticao}")]
+        [HttpGet("buscarpordescricao/{nome}")]
         public IActionResult GetByDescricao(string nome)
         {
             try
@@ -93,9 +92,9 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPut("atucalizarcategoria{id}")]
-        public IActionResult Put(int id, Categoria categoriaAtualizada)
+
+        [HttpPut("atualizarcategoria{id}")]
+        public IActionResult Put(int id, AtualizarCategoriaInputModel categoriaAtualizada)
         {
             try
             {
@@ -109,7 +108,7 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
+
         [HttpDelete("deletarcategoria{id}")]
         public IActionResult Delete(int id)
         {
@@ -125,7 +124,6 @@ namespace BernhoeftApi.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("minhascatetegorias")]
         public IActionResult ListarMinhasCategorias()
         {

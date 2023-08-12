@@ -1,4 +1,6 @@
 ﻿using BernhoeftApi.Domains;
+using BernhoeftApi.Model.InputModels.Produto;
+using BernhoeftApi.Model.InputModels.TipoUsuario;
 
 namespace BernhoeftApi.Interfaces
 {
@@ -27,7 +29,7 @@ namespace BernhoeftApi.Interfaces
         /// </summary>
         /// <param name="id">Id da produto que será atualizado</param>
         /// <param name="produtoAtualizado">Objeto salaAtualizada que receberá os novos valores</param>
-        void Atualizar(int id, Produto produtoAtualizado);
+        void Atualizar(int id, AtualizarProdutoInputModel produtoAtualizado);
 
         /// <summary>
         /// Buscar uma produto por seu id
@@ -36,11 +38,11 @@ namespace BernhoeftApi.Interfaces
         /// <returns>uma produto buscado</returns>
         Produto BuscarPorId(int id);
 
-        Produto BuscarPorSitucao(bool situcao);
+        List<Produto> BuscarPorSitucao(bool situcao);
 
-        Produto BuscarPorDescricao(string descricao);
+        List<Produto> BuscarPorDescricao(string descricao);
 
-        Produto BuscarPorCategoria(int id);
+        List<Produto> BuscarPorCategoria(int id);
 
         List<Produto> ListarMeusProdutos(int IdUsuario);
     }

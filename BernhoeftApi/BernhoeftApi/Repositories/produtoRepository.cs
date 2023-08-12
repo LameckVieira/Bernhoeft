@@ -1,15 +1,16 @@
 ﻿using BernhoeftApi.Contexts;
 using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.Produto;
 using Microsoft.EntityFrameworkCore;
 
 namespace BernhoeftApi.Repositories
 {
-    public class produtoRepository : IProdutoRepository
+    public class ProdutoRepository : IProdutoRepository
     {
         BernhoeftContext ctx = new BernhoeftContext();
 
-        public void Atualizar(int id, Produto produtoAtualizado)
+        public void Atualizar(int id, AtualizarProdutoInputModel produtoAtualizado)
         {
             Produto produtoBuscado = ctx.Produtos.Find(id);
 
@@ -39,62 +40,34 @@ namespace BernhoeftApi.Repositories
 
         }
 
-        public Produto? BuscarPorDescricao(string descricao)
+        public List<Produto> BuscarPorDescricao(string descricao)
         {
-            return ctx.Produtos.Select(s => new Produto()
-            {
-                IdProduto = s.IdProduto,
-                IdCategoria = s.IdCategoria,
-                IdUsuario = s.IdUsuario,
-                Nome = s.Nome,
-                Descricao = s.Descricao,
-                Preco = s.Preco,
-                Situacao = s.Situacao,
-            })
-                .FirstOrDefault(s => s.Descricao == descricao);
+            return ctx.Produtos.Where(s => s.Descricao == descricao).ToList();
         }
 
         public Produto? BuscarPorId(int id)
         {
             return ctx.Produtos.Select(s => new Produto()
                 {
-                    IdProduto = s.IdProduto,
-                    IdCategoria = s.IdCategoria,
-                    IdUsuario = s.IdUsuario,
+                    ProdutoId = s.ProdutoId,
+                    CategoriaId = s.CategoriaId,
+                    UsuarioId = s.UsuarioId,
                     Nome = s.Nome,
                     Descricao = s.Descricao,
                     Preco = s.Preco,
                     Situacao = s.Situacao,
             })
-                .FirstOrDefault(s => s.IdProduto == id);
+                .FirstOrDefault(s => s.ProdutoId == id);
         }
 
-        public Produto? BuscarPorCategoria(int id)
+        public List<Produto> BuscarPorCategoria(int id)
         {
-            return ctx.Produtos.Select(s => new Produto()
-            {
-                IdProduto = s.IdProduto,
-                IdCategoria = s.IdCategoria,
-                IdUsuario = s.IdUsuario,
-                Nome = s.Nome,
-                Descricao = s.Descricao,
-                Preco = s.Preco,
-                Situacao = s.Situacao,
-            })
-                .FirstOrDefault(s => s.IdCategoria == id);
+            return ctx.Produtos.Where(s => s.CategoriaId == id).ToList();
         }
 
-        public Produto? BuscarPorSitucao(bool situcao)
+        public List<Produto> BuscarPorSitucao(bool situcao)
         {
-            return ctx.Produtos.Select(s => new Produto()
-            {
-                IdProduto = s.IdProduto,
-                Nome = s.Nome,
-                Descricao = s.Descricao,
-                Preco = s.Preco,
-                Situacao = s.Situacao,
-            })
-                .FirstOrDefault(s => s.Situacao == situcao);
+            return ctx.Produtos.Where(s => s.Situacao == situcao).ToList();
         }
 
         public void Cadastrar(Produto novoProduto)
@@ -115,13 +88,9 @@ namespace BernhoeftApi.Repositories
         }
 
 
-        public List<Produto> ListarMeusProdutos(int IdUsuario)
+        public List<Produto> ListarMeusProdutos(int UsuarioId)
         {
             return ctx.Produtos
-
-             .Include(c => c.IdUsuarioNavigation)
-
-             .Where(c => c.IdUsuarioNavigation.IdUsuario == IdUsuario)
 
              .ToList();
         }

@@ -1,5 +1,6 @@
 ﻿using BernhoeftApi.Domains;
 using BernhoeftApi.Interfaces;
+using BernhoeftApi.Model.InputModels.TipoUsuario;
 using BernhoeftApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace BernhoeftApi.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class tipoUsuarioController : ControllerBase
+    public class TipoUsuarioController : BaseController
     {
         // <summary>
         /// Objeto _ITipoUsuarioRepository que irá receber todos os métodos definidos na interface ITipoUsuarioRepository
@@ -19,9 +20,9 @@ namespace BernhoeftApi.Controllers
         /// <summary>
         /// Instancia o objeto _ITipoUsuarioRepository para que haja a referência nos métodos implementadas no repositório TipoUsuarioRepository
         /// </summary>
-        public tipoUsuarioController()
+        public TipoUsuarioController()
         {
-            _tipoUsuarioRepository = new tipoUsuarioRepository();
+            _tipoUsuarioRepository = new TipoUsuarioRepository();
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace BernhoeftApi.Controllers
         /// <returns>Um status code 204 - No Content</returns>
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, TipoUsuario TipoUsuarioAtualizado)
+        public IActionResult Put(int id, AtualizarTipoUsuarioInputModel TipoUsuarioAtualizado)
         {
             // Faz a chamada para o método
             _tipoUsuarioRepository.Atualizar(id, TipoUsuarioAtualizado);
@@ -90,10 +91,11 @@ namespace BernhoeftApi.Controllers
         /// 
 
         [HttpPost]
-        public IActionResult Post(TipoUsuario novoTipoUsuario)
+        public IActionResult Post(CriarTipoUsuarioInputModel novoTipoUsuario)
         {
+            TipoUsuario tipoUsuario = new TipoUsuario(novoTipoUsuario.TipoUsuario);
             // Faz a chamada para o método
-            _tipoUsuarioRepository.Cadastrar(novoTipoUsuario);
+            _tipoUsuarioRepository.Cadastrar(tipoUsuario);
 
             // Retorna um status code
             return StatusCode(201);

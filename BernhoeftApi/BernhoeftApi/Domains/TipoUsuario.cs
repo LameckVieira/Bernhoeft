@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BernhoeftApi.Domains
 {
@@ -7,12 +8,17 @@ namespace BernhoeftApi.Domains
     {
         public TipoUsuario()
         {
-            Usuarios = new HashSet<Usuario>();
+
         }
 
-        public int IdTipoUsuario { get; set; }
+        public TipoUsuario(string tipoUsuario)
+        {
+            TipoUsusario = tipoUsuario;
+        }
+
+        [Key]
+        public int TipoUsuarioId { get; set; }
         public string TipoUsusario { get; set; } = null!;
 
-        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }

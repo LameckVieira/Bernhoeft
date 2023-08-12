@@ -91,7 +91,7 @@ A seguir estão os principais endpoints disponíveis na API:
 6. Acesse a documentação interativa em `http://localhost:porta/swagger`.
 
 ## Contato
-4. Instale o [sql server management studio]([URL](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16))
+4. Instale o [Aql Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 5. instale o [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
    
 ## Contato

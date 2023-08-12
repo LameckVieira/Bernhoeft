@@ -90,7 +90,7 @@ A seguir estão os principais endpoints disponíveis na API:
 5. Execute a API.
 6. Acesse a documentação interativa em `http://localhost:5000/index.html`.
 
-## Contato
+## Instalação
 4. Instale o [Sql Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 5. instale o [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
    

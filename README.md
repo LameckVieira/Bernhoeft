@@ -86,7 +86,7 @@ A seguir estão os principais endpoints disponíveis na API:
 
 1. Clone este repositório.
 2. Instale as dependências (se aplicável).
-3. Pegue o arquivo de criação do banco na pasta script e rode em um banco de dados SQLSERVER
+3. Usar o comando `Update-Migration` para realizar a criação do banco de dados sql na sua máquina
 5. Execute a API.
 6. Acesse a documentação interativa em `http://localhost:5000/index.html`.
 

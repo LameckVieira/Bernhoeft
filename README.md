@@ -88,7 +88,7 @@ A seguir estão os principais endpoints disponíveis na API:
 2. Instale as dependências (se aplicável).
 3. Pegue o arquivo de criação do banco na pasta script e rode em um banco de dados SQLSERVER
 5. Execute a API.
-6. Acesse a documentação interativa em `http://localhost:porta/swagger`.
+6. Acesse a documentação interativa em `[http://localhost:porta/swagger](http://localhost:5000/index.html)`.
 
 ## Contato
 4. Instale o [Sql Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)

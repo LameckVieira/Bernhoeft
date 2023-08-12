@@ -91,8 +91,10 @@ A seguir estão os principais endpoints disponíveis na API:
 6. Acesse a documentação interativa em `http://localhost:5000/index.html`.
 
 ## Instalação
-4. Instale o [Sql Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
-5. instale o [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
+
+1. Instale o [Sql Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+2. instale o [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
+3. instale o [Postaman](https://www.postman.com/downloads/)
    
 ## Contato
 

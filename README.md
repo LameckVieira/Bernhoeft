@@ -33,7 +33,7 @@ Situação (Ativo ou inativo)
 
 # Minha API
 
-Bem-vindo à documentação da Minha API! Esta API oferece recursos para realizar operações CRUD de usuários, tipos de usuário, produtos, categorias e autenticação.
+Bem-vindo à documentação da Minha API! Esta API oferece recursos para realizar operações CRUD de `Usuários`, `Tipos de Usuário`, `Produtos`, `Categorias` e `Login`.
 
 ## Endpoints
 
